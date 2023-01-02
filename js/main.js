@@ -8,64 +8,77 @@ Al click dell’utente sulle frecce, l’immagine attiva diventerà visibile e d
 /*Milestone 2:
 Aggiungere il **ciclo infinito** del carosello. Ovvero se l’img attiva è la prima e l’utente clicca la freccia prev, l’img che deve attivarsi sarà l’ultima e viceversa per l’ultima img se l’utente clicca la freccia next.*/
 
-
-
-const Btnnext = document.querySelector('.btn-next');
-const Btnprev = document.querySelector('.btn-prev');
-const carousel = document.querySelector('.carousel');
-
-const arrImages = [
-	'img/01.webp',
-	'img/02.webp',
-	'img/03.webp',
-	'img/04.webp',
-	'img/05.webp',
+const images = [ 
+    { 
+        image: 'img/01.webp', 
+        title: 'Marvel\'s Spiderman Miles Morale', 
+        text: 'Experience the rise of Miles Morales as the new hero masters incredible, explosive new powers to become his own Spider-Man.'
+    }, 
+    { 
+        image: 'img/02.webp', 
+        title: 'Ratchet & Clank: Rift Apart', 
+        text: 'Go dimension-hopping with Ratchet and Clank as they take on an evil emperor from another reality.'
+    }, 
+    { 
+        image: 'img/03.webp', 
+        title: 'Fortnite', 
+        text: "Grab all of your friends and drop into Epic Games Fortnite, a massive 100 - player face - off that combines looting, crafting, shootouts and chaos." 
+    }, 
+    { 
+        image: 'img/04.webp', 
+        title: 'Stray', 
+        text: 'Lost, injured and alone, a stray cat must untangle an ancient mystery to escape a long-forgotten city'
+    }, 
+    { 
+        image: 'img/05.webp', 
+        title: "Marvel's Avengers", 
+        text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.'
+    } 
 ];
 
-for (let i = 0; i < arrImages.length; i++) {
-	const Img = document.createElement('img');
-	Img.src = arrImages[i];
-	Img.classList.add('carousel-img');
+let carousel = document.querySelector(".carousel");
 
-	if (i === 0) {
-		Img.classList.add('active');
-	}
+images.forEach((element) => {
+    
+    let item = ` <div class="item">
+                    <img src="${element.image}">
+                    <div class="text">
+                        <div class="title">${element.title}</div>
+                        <div class="subtitle">${element.text}</div>
+                    </div>
+              
+                </div>`
 
-	carousel.append(Img);
-}
+    carousel.innerHTML += item;
+});
 
-const listImg = document.querySelectorAll('.carousel-img'); 
+let divItem = document.getElementsByClassName("item");
+divItem[0].classList.add("active");
 
 let activeItem = 0;
 
-   Btnprev.addEventListener('click', 
-   
-   function () {
-	
-	listImg[activeItem].classList.remove('active');
+document.getElementById("next").addEventListener("click",
+    function(){
+        if(activeItem == divItem.length -1){
+            activeItem = 0;
+        }else{
+            activeItem++;
+        }
 
-	activeItem++;
+        document.querySelector(".active").classList.remove("active");
+        divItem[activeItem].classList.add("active");
+    }
+);
 
-	listImg[activeItem].classList.add('active');
+document.getElementById("prev").addEventListener("click",
+    function(){
+        if(activeItem == 0){
+            activeItem = divItem.length -1;
+        }else{
+            activeItem--;
+        }
 
-	   Btnnext.classList.remove('hidden');
-	if (activeItem === listImg.length - 1) {
-		Btnprev.classList.add('hidden');
-	}
-});
-
-    Btnnext.addEventListener('click', 
-    
-    function () {
-
-	listImg[activeItem].classList.remove('active');
-
-	activeItem--;
-
-	listImg[activeItem].classList.add('active');
-
-	 Btnprev.classList.remove('hidden');
-	if (activeItem === 0) {
-		Btnnext.classList.add('hidden');
-	}
-});
+        document.querySelector(".active").classList.remove("active");
+        divItem[activeItem].classList.add("active");
+    }
+);
